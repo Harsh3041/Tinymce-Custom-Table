@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="D:\Tasks\tinymce.js" referrerpolicy="origin"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+      tinymce.PluginManager.add("example", function (editor, url) {
+        /* Add a button that opens a window */
+        editor.ui.registry.addButton("example", {
+          text: "Custom-Table",
+          onAction: function () {
+            /* Opens Dialog */
+            tinymce.activeEditor.windowManager.open(dialogConfig1);
+          },
+        });
+
+        //Object which contains the structure of Dialog Box
+        let dialogConfig1 = {
+          title: "Add Table",
+          body: {
+            type: "tabpanel",
+            tabs: [
+              {
+                name: "Header",
+                title: "Custom-Tables",
+                items: [
+                  {
+                    type: "input",
+                    name: "rows",
+                    id: "row",
+                    label: "Enter Freemarker Syntax",
+                  },
+                  {
+                    type: "input",
+                    name: "row2",
+                    label: "Enter the tag where to insert Freemarker Syntax",
+                  },
+                ],
+              },
+            ],
+          },
+
+          //Buttons present in Dialog Box
+          buttons: [
+            {
+              type: "cancel",
+              name: "closeButton",
+              text: "Cancel",
+            },
+            {
+              type: "submit",
+              name: "submitButton",
+              text: "Save",
+              primary: true,
+            },
+          ],
+
+          //Method that will trigger when we click on Save
+          onSubmit: function (api) {
+            // var el_up = document.getElementById("custom-plugin");
+
+            // var list = [
+            //   { Name: "Harsh", "Mobile No.": "9988776655" },
+            //   { Name: "John", "Mobile No.": "9988776655" },
+            //   { Name: "Mark", "Mobile No.": "9988776655" },
+            //   { Name: "Kevin", "Mobile No.": "9988776655" },
+            // ];
+
+            // var cols = [];
+
+            // for (var i = 0; i < list.length; i++) {
+            //   for (var k in list[i]) {
+            //     if (cols.indexOf(k) === -1) {
+            //       // Push all keys to the array
+            //       cols.push(k);
+            //     }
+            //   }
+            // }
+
+            // // Create a table element
+            // var table = document.createElement("table");
+
+            // // Create table row tr element of a table
+            // var mytr = table.insertRow(-1);
+            // mytr.innerHTML = "<!--[#list animals as animal]-->"
+            // for (var i = 0; i < cols.length; i++) {
+            //   // Create the table header th element
+            //   var theader = document.createElement("th");
+            //   theader.innerHTML = cols[i];
+
+            //   // Append columnName to the table row
+            //   mytr.appendChild(theader);
+            // }
+
+            // // Adding the data to the table
+            // for (var i = 0; i < list.length; i++) {
+            //   // Create a new row
+            //   trow = table.insertRow(-1);
+            //   for (var j = 0; j < cols.length; j++) {
+            //     var cell = trow.insertCell(-1);
+
+            //     // Inserting the cell at particular place
+            //     // cell.innerHTML = list[i][cols[j]];
+            //   }
+            // }
+
+            // // Add the newly created table containing json data
+            // var el = document.getElementById("table");    // el contains whole Table Structure
+            // el.innerHTML = "";
+            // el.appendChild(table);
+            // console.log(el);
+
+            var data = api.getData();
+
+            var a, b, tableEle, rowEle, colEle;
+            var a = data.rows;
+            var b = data.row2; //No of rows you want
+            // b = data.cols; //No of column you want
+
+            //If condition that checks if the input fields are empty or not if empty it throws alert message
+            if (a == "") {
+              alert("Please enter FreeMarker Syntax");
+            }
+
+            //Else If condition that contains the main code of generating tables inside Editor
+            else if (a == "[#list animals as animal]" && b == "tr") {
+              var el_up = document.getElementById("custom-plugin");
+
+              var list = [
+                { Name: "Harsh", "Mobile No.": "9988776655" },
+                { Name: "John", "Mobile No.": "9988776655" },
+                { Name: "Mark", "Mobile No.": "9988776655" },
+                { Name: "Kevin", "Mobile No.": "9988776655" },
+              ];
+
+              var cols = [];
+
+              for (var i = 0; i < list.length; i++) {
+                for (var k in list[i]) {
+                  if (cols.indexOf(k) === -1) {
+                    // Push all keys to the array
+                    cols.push(k);
+                  }
+                }
+              }
+
+              // Create a table element
+              var table = document.createElement("table");
+
+              // Create table row tr element of a table
+              var mytr = table.insertRow(-1);
+              mytr.innerHTML = "<!--[#list animals as animal]-->";
+              for (var i = 0; i < cols.length; i++) {
+                // Create the table header th element
+                var theader = document.createElement("th");
+                theader.innerHTML = cols[i];
+
+                // Append columnName to the table row
+                mytr.appendChild(theader);
+              }
+
+              // Adding the data to the table
+              for (var i = 0; i < list.length; i++) {
+                // Create a new row
+                trow = table.insertRow(-1);
+                for (var j = 0; j < cols.length; j++) {
+                  var cell = trow.insertCell(-1);
+
+                  // Inserting the cell at particular place
+                  // cell.innerHTML = list[i][cols[j]];
+                }
+              }
+
+              // Add the newly created table containing json data
+              var el = document.getElementById("table"); // el contains whole Table Structure
+              el.innerHTML = "";
+              el.appendChild(table);
+              console.log(el);
+
+              var el = document.getElementById("table");
+              // var trs = document.getElementsByTagName("tr");
+              // trs[0].innerHTML = "<!--[#list animals as animal]-->"
+              // tableEle = document.createElement("table");
+              // rowEle = document.createElement("tr");
+
+              // colEle = document.createElement("td");
+              // colEle.innerHTML = el.outerHTML;
+              // rowEle.appendChild(colEle);
+              // tableEle.appendChild(rowEle);
+              // var decodedEle = decodeURIComponent(newELe);
+              // console.log(decodedEle);
+
+              // for (var i = 0; i < a; i++) {
+              //   rowEle = document.createElement("tr");
+              //   rowEle.setAttribute("id","newtr");
+
+              //   for (var j = 0; j < b; j++) {
+              //     colEle = document.createElement("td");
+              //     rowEle.appendChild(colEle);
+              //   }
+              //   tableEle.appendChild(rowEle);
+              // }
+              // console.log(el);
+              editor.setContent(el.outerHTML);
+            } 
+            else if (a == "[#list animals as animal]" && b == "th") {
+              var el_up = document.getElementById("custom-plugin");
+
+              var list = [
+                { Name: "Harsh", "Mobile No.": "9988776655" },
+                { Name: "John", "Mobile No.": "9988776655" },
+                { Name: "Mark", "Mobile No.": "9988776655" },
+                { Name: "Kevin", "Mobile No.": "9988776655" },
+              ];
+
+              var cols = [];
+
+              for (var i = 0; i < list.length; i++) {
+                for (var k in list[i]) {
+                  if (cols.indexOf(k) === -1) {
+                    // Push all keys to the array
+                    cols.push(k);
+                  }
+                }
+              }
+
+              // Create a table element
+              var table = document.createElement("table");
+
+              // Create table row tr element of a table
+              var mytr = table.insertRow(-1);
+
+              for (var i = 0; i < cols.length; i++) {
+                // Create the table header th element
+                var theader = document.createElement("th");
+                theader.innerHTML = cols[i];
+                theader.innerHTML = "<!--[#list animals as animal]-->";
+
+                // Append columnName to the table row
+                mytr.appendChild(theader);
+              }
+
+              // Adding the data to the table
+              for (var i = 0; i < list.length; i++) {
+                // Create a new row
+                trow = table.insertRow(-1);
+                for (var j = 0; j < cols.length; j++) {
+                  var cell = trow.insertCell(-1);
+                  // cell.innerHTML = "<!--[#list animals as animal]-->"
+
+                  // Inserting the cell at particular place
+                  // cell.innerHTML = list[i][cols[j]];
+                }
+              }
+
+              // Add the newly created table containing json data
+              var el = document.getElementById("table"); // el contains whole Table Structure
+              el.innerHTML = "";
+              el.appendChild(table);
+              console.log(el);
+
+              var el = document.getElementById("table");
+              editor.setContent(el.outerHTML);
+            } 
+            else if (a == "[#list animals as animal]" && b == "td") {
+              var el_up = document.getElementById("custom-plugin");
+
+              var list = [
+                { Name: "Harsh", "Mobile No.": "9988776655" },
+                { Name: "John", "Mobile No.": "9988776655" },
+                { Name: "Mark", "Mobile No.": "9988776655" },
+                { Name: "Kevin", "Mobile No.": "9988776655" },
+              ];
+
+              var cols = [];
+
+              for (var i = 0; i < list.length; i++) {
+                for (var k in list[i]) {
+                  if (cols.indexOf(k) === -1) {
+                    // Push all keys to the array
+                    cols.push(k);
+                  }
+                }
+              }
+
+              // Create a table element
+              var table = document.createElement("table");
+
+              // Create table row tr element of a table
+              var mytr = table.insertRow(-1);
+
+              for (var i = 0; i < cols.length; i++) {
+                // Create the table header th element
+                var theader = document.createElement("th");
+                theader.innerHTML = cols[i];
+
+                // Append columnName to the table row
+                mytr.appendChild(theader);
+              }
+
+              // Adding the data to the table
+              for (var i = 0; i < list.length; i++) {
+                // Create a new row
+                trow = table.insertRow(-1);
+                for (var j = 0; j < cols.length; j++) {
+                  var cell = trow.insertCell(-1);
+                  cell.innerHTML = "<!--[#list animals as animal]-->";
+
+                  // Inserting the cell at particular place
+                  // cell.innerHTML = list[i][cols[j]];
+                }
+              }
+
+              // Add the newly created table containing json data
+              var el = document.getElementById("table"); // el contains whole Table Structure
+              el.innerHTML = "";
+              el.appendChild(table);
+              console.log(el);
+
+              var el = document.getElementById("table");
+              editor.setContent(el.outerHTML);
+            }
+             else {
+              alert("Enter valid FreeMarker Syntax");
+            }
+
+            api.close();
+          },
+        };
+      });
+      // Tinymce initialization Code
+      tinymce.init({
+        selector: "textarea#custom-plugin",
+        plugins: "example help code advtable table",
+        toolbar: "example | help",
+        height: 600,
+        verify_html: true,
+        valid_elements: "table,tr,th,td",
+        table_grid: false,
+        allow_conditional_comments: true,
+        protect: [/\<\/?(#list|#if)\>/g],
+        menubar: "file edit view insert format tools table tc help example",
+        content_style:
+          "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+      });
+    </script>
+  </head>
+  <body>
+    <!-- <p id = "GFG_UP" style =
+    "font-size: 15px; font-weight: bold;">
+</p>
+
+<button onclick = "GFG_FUN()">
+  click here
+</button>
+
+<br><br>
+      -->
+
+    <!--Table present inside Editor-->
+    <table id="table" align="center" border="1px" hidden></table>
+    <h1>TinyMCE Quick Start Guide</h1>
+    <textarea id="custom-plugin"></textarea>
+  </body>
+</html>
